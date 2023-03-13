@@ -9,6 +9,6 @@ namespace DustyLibraryManagementSystem.Domain
     public class Client
     {
         public Person Person { get; set; }
-        public Rental Rental { get; set; }
+        public Rental? Rental { get; set; }
     }
 }
