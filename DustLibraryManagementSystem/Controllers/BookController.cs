@@ -1,8 +1,10 @@
 ﻿using DustyLibraryManagementSystem.Domain;
 using DustyLibraryManagementSystem.Indexes;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
+using System.Net;
 
 namespace DustyLibraryManagementSystem.Controllers
 {
@@ -15,7 +17,7 @@ namespace DustyLibraryManagementSystem.Controllers
             session = Session;
         }
 
-        public async Task<IActionResult> GetBooks()
+        public async Task<ActionResult<List<Book>>> GetBooks()
         {
             var books = await session
                 .Query<Book>()
@@ -23,7 +25,7 @@ namespace DustyLibraryManagementSystem.Controllers
             return View(books);
         }
 
-        public async Task<IActionResult> GetAllBooksByTitleAndAuthor()
+        public async Task<ActionResult<List<Book>>> GetAllBooksByTitleAndAuthor()
         {
             var books = await session
                     .Query<Book, Books_ByTitleAndAuthor>()
@@ -31,26 +33,25 @@ namespace DustyLibraryManagementSystem.Controllers
             return View(books);
         }
 
-        public async Task<IActionResult> GetBook(string id)
+        public async Task<ActionResult<Book>> GetBook(string id)
+        {
+            var book = await session.LoadAsync<Book>(id);
+            return book;
+        }
+
+        public async Task<ActionResult> DeleteBook(string? id)
         {
             var book = await session.LoadAsync<Book>(id);
             return View(book);
         }
 
-        public async Task<bool> DeleteBook(string id)
+        [HttpPost, ActionName("Delete")]
+        public async Task<ActionResult> DeleteBookConfirmed(string id)
         {
             var book = await session.LoadAsync<Book>(id);
-
-            try
-            {
-                session.Delete(book);
-                await session.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
-                throw new NullReferenceException(id);
-            }
+            session.Delete(book);
+            await session.SaveChangesAsync();
+            return View();
         }
     }
 }
