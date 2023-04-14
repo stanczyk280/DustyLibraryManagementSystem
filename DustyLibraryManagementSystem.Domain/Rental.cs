@@ -8,7 +8,8 @@ namespace DustyLibraryManagementSystem.Domain
 {
     public class Rental
     {
-        public Book Book { get; set; }
+        public string Id { get; set; }
+        public string BookId { get; set; }
         public DateTime ReleaseDate { get; set; }
         public DateTime ReturnDate { get; set; }
     }
