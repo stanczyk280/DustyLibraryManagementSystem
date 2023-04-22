@@ -8,12 +8,18 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.6" />
     <PackageReference Include="RavenDB.DependencyInjection" Version="4.0.2" />
+    <PackageReference Include="RavenDB.Identity" Version="8.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DustyLibraryManagementSystem.Domain\DustyLibraryManagementSystem.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Indexes\" />
   </ItemGroup>
 
 </Project>

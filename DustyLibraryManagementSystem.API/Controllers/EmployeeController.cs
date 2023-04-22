@@ -9,15 +9,12 @@ namespace DustyLibraryManagementSystem.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class EmployeeController : RavenController
     {
-        private readonly IAsyncDocumentSession session;
         private readonly string collectionName = "employees/";
 
-        public EmployeeController(IAsyncDocumentSession Session)
-        {
-            session = Session;
-        }
+        public EmployeeController(IAsyncDocumentSession Session) : base(Session)
+        { }
 
         // GET: api/<EmployeeController>
         [HttpGet]

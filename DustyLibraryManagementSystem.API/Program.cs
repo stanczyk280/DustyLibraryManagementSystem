@@ -1,7 +1,9 @@
 using DustyLibraryManagementSystem.API.Common;
-using Raven.Client.Documents;
+using Raven.Identity;
 using Raven.Client.Documents.Session;
 using Raven.DependencyInjection;
+using DustyLibraryManagementSystem.Domain;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddRavenDbDocStore();
 builder.Services.AddRavenDbAsyncSession();
+builder.Services.AddIdentity<AppUser, IdentityRole>();
+
+builder.Services.AddAuthentication("cookie")
+    .AddCookie("cookie");
 
 var app = builder.Build();
 
@@ -28,6 +34,16 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/login", () => Results.SignIn(
+    new ClaimsPrincipal(
+        new ClaimsIdentity(
+            new[] { new Claim("user_id", Guid.NewGuid().ToString()) },
+            "cookie"
+            )
+        ),
+    authenticationScheme: "cookie"
+    ));
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

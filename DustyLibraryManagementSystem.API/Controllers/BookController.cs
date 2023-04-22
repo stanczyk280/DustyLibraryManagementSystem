@@ -1,5 +1,4 @@
-﻿using DustyLibraryManagementSystem.API.Indexes;
-using DustyLibraryManagementSystem.Domain;
+﻿using DustyLibraryManagementSystem.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
@@ -10,14 +9,12 @@ namespace DustyLibraryManagementSystem.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookController : ControllerBase
+    public class BookController : RavenController
     {
-        private readonly IAsyncDocumentSession session;
         private readonly string collectionName = "books/";
 
-        public BookController(IAsyncDocumentSession Session)
+        public BookController(IAsyncDocumentSession Session) : base(Session)
         {
-            session = Session;
         }
 
         // GET: api/<ValuesController>
@@ -29,16 +26,6 @@ namespace DustyLibraryManagementSystem.API.Controllers
                 .ToListAsync();
             return books;
         }
-
-        //// GET: api/Books_By_IdTitleAuthorCopies
-        //[HttpGet]
-        //public async Task<List<Books_By_IdTitleAuthorCopies>> GetIndexedBooks()
-        //{
-        //    var books = await session
-        //        .Query<Books_By_IdTitleAuthorCopies>()
-        //        .ToListAsync();
-        //    return books;
-        //}
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]

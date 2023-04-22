@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="RavenDB.Client" Version="5.4.101" />
+    <PackageReference Include="RavenDB.Identity" Version="8.0.7" />
   </ItemGroup>
 
 </Project>
